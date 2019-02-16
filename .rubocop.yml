@@ -14,3 +14,5 @@ AllCops:
   Exclude:
     - 'config/**/*'
     - 'bin/**/*'
+    - 'db/migrate/*'
+    - 'db/schema.rb'
