@@ -7,7 +7,8 @@ module API
         desc ''
         params do
         end
-        get  do
+        post  do
+          { message: 'OK' }
         end
       end
     end
