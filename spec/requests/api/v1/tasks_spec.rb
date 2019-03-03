@@ -46,4 +46,42 @@ RSpec.describe API::V1::Tasks, type: :request do
       expect(task.description).to eq(task_description)
     end
   end
+
+  describe '#PUT /api/v1/tasks/:id' do
+    let!(:task) { FactoryBot.create(:task, project: project) }
+    subject do
+      put "/api/v1/tasks/#{task.id}", params: params
+    end
+    let(:params) do
+      {
+        id: task_id,
+        name: task_name,
+        description: task_description
+      }
+    end
+    let(:task_id) { task.id }
+    let(:task_name) { 'Some name' }
+    let(:task_description) { 'Some description' }
+
+    it 'has correct response' do
+      subject
+      expect(response).to have_http_status(200)
+      response_json = JSON.parse(response.body)
+      expect(response_json['message']).to eq('OK')
+    end
+
+    it 'doesn t create new task' do
+      expect { subject }.to_not change { Task.count }
+    end
+
+    it 'update task name' do
+      expect { subject }.to change { task.reload.name }.from(task.name).to(task_name)
+    end
+
+    it 'update task description' do
+      expect { subject }.to change { task.reload.description }
+        .from(task.description)
+        .to(task_description)
+    end
+  end
 end

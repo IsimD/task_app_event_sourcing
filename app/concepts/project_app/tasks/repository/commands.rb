@@ -6,6 +6,10 @@ module ProjectApp
           def create_task(params:)
             Task.create!(params)
           end
+
+          def update_task(params:)
+            Task.update(params[:id], params)
+          end
         end
       end
     end
