@@ -35,14 +35,14 @@ RSpec.describe API::V1::Users, type: :request do
     end
 
     it 'create project object' do
-      expect{ subject }.to change(Project.count).by(1)
+      expect{ subject }.to change{ Project.count }.by(1)
     end
 
     it 'created project has correct attributes' do
       subject
       project = Project.find(project_id)
-      expect(project.name).to eq(name)
-      expect(project.description).to eq(description)
+      expect(project.name).to eq(project_name)
+      expect(project.description).to eq(project_description)
     end
   end
 end
