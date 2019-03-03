@@ -1,6 +1,6 @@
-#require 'rails_helper'
+# require 'rails_helper'
 #
-#RSpec.describe API::V1::Users, type: :request do
+# RSpec.describe API::V1::Users, type: :request do
 #  let!(:user) { FactoryBot.create :user }
 #
 #  describe 'GET :index' do
@@ -11,4 +11,4 @@
 #      response_json = JSON.parse(response.body)
 #    end
 #  end
-#end
+# end
