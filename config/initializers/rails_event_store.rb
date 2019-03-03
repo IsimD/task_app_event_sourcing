@@ -12,4 +12,8 @@ Rails.configuration.to_prepare do
     ::ProjectApp::Projects::EventHandlers::UserDeletedProject.new,
     to: [::ProjectApp::Projects::Events::UserDeletedProject],
   )
+  event_store.subscribe(
+    ::ProjectApp::Tasks::EventHandlers::UserCreatedTask.new,
+    to: [::ProjectApp::Tasks::Events::UserCreatedTask],
+  )
 end
