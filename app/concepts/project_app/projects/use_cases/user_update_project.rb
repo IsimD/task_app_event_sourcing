@@ -1,7 +1,7 @@
 module ProjectApp
   module Projects
     module UseCases
-      class UserCreateProject
+      class UserUpdateProject
         class << self
           def call(params:, user:)
             create_event(user, params)
@@ -12,7 +12,7 @@ module ProjectApp
           def create_event(user, params)
             stream_name = "user_$#{user.id}"
             second_steam_name = "project_$#{params[:id]}"
-            event = ProjectApp::Projects::Events::UserCreatedProject.new(
+            event = ProjectApp::Projects::Events::UserUpdatedProject.new(
               data: {
                 user_id: user.id,
                 params: params

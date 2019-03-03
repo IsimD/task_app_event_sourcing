@@ -26,7 +26,7 @@ RSpec.describe API::V1::Users, type: :request do
       post '/api/v1/projects', params: params
     end
 
-    it 'return expenses for current users' do
+    it 'has correct response' do
       subject
       expect(response).to have_http_status(201)
       response_json = JSON.parse(response.body)
@@ -42,6 +42,44 @@ RSpec.describe API::V1::Users, type: :request do
       project = Project.find(project_id)
       expect(project.name).to eq(project_name)
       expect(project.description).to eq(project_description)
+    end
+  end
+
+  describe '#PUT /api/v1/projects/:id' do
+    let!(:project) { FactoryBot.create(:project) }
+    subject do
+      put "/api/v1/projects/#{project.id}", params: params
+    end
+    let(:params) do
+      {
+        id: project_id,
+        name: project_name,
+        description: project_description
+      }
+    end
+    let(:project_id) { project.id }
+    let(:project_name) { 'Some name' }
+    let(:project_description) { 'Some description' }
+
+    it 'has correct response' do
+      subject
+      expect(response).to have_http_status(200)
+      response_json = JSON.parse(response.body)
+      expect(response_json['message']).to eq('OK')
+    end
+
+    it 'doesn t create new project' do
+      expect { subject }.to_not change { Project.count }
+    end
+
+    it 'update project name' do
+      expect { subject }.to change { project.reload.name }.from(project.name).to(project_name)
+    end
+
+    it 'update project description' do
+      expect { subject }.to change { project.reload.description }
+        .from(project.description)
+        .to(project_description)
     end
   end
 end

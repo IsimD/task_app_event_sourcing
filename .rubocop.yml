@@ -8,13 +8,17 @@ Metrics/BlockLength:
   Enabled: true
   Exclude:
     - !ruby/regexp /_spec\.rb$/
-    - app/controllers/api/v1/defaults.rb
+    - 'app/controllers/api/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 Naming/AccessorMethodName:
   Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
 
 Documentation:
   Enabled: false
