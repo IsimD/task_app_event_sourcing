@@ -48,7 +48,7 @@ RSpec.describe API::V1::Users, type: :request do
   describe '#PUT /api/v1/projects/:id' do
     let!(:project) { FactoryBot.create(:project) }
     subject do
-      put "/api/v1/projects/#{project.id}", params: params
+      put "/api/v1/projects/#{project_id}", params: params
     end
     let(:params) do
       {
@@ -80,6 +80,26 @@ RSpec.describe API::V1::Users, type: :request do
       expect { subject }.to change { project.reload.description }
         .from(project.description)
         .to(project_description)
+    end
+  end
+
+  describe '#DELETE /api/v1/projects/:id' do
+    let!(:project)        { FactoryBot.create(:project) }
+    let!(:second_project) { FactoryBot.create(:project) }
+    subject do
+      delete "/api/v1/projects/#{project_id}"
+    end
+    let(:project_id) { project.id }
+
+    it 'has correct response' do
+      subject
+      expect(response).to have_http_status(200)
+      response_json = JSON.parse(response.body)
+      expect(response_json['message']).to eq('OK')
+    end
+
+    it 'delete project' do
+      expect { subject }.to change { Project.count }.by(-1)
     end
   end
 end

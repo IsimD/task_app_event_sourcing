@@ -33,6 +33,19 @@ module API
           )
           { message: 'OK' }
         end
+
+        desc 'Destroy project'
+        params do
+          requires :id, type: String
+        end
+
+        delete '/:id' do
+          ::ProjectApp::Projects::UseCases::UserDeleteProject.call(
+            user: current_user,
+            params: permitted_params
+          )
+          { message: 'OK' }
+        end
       end
     end
   end

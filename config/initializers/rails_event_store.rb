@@ -8,4 +8,8 @@ Rails.configuration.to_prepare do
     ::ProjectApp::Projects::EventHandlers::UserUpdatedProject.new,
     to: [::ProjectApp::Projects::Events::UserUpdatedProject],
   )
+  event_store.subscribe(
+    ::ProjectApp::Projects::EventHandlers::UserDeletedProject.new,
+    to: [::ProjectApp::Projects::Events::UserDeletedProject],
+  )
 end

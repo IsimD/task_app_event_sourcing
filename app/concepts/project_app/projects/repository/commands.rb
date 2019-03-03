@@ -10,6 +10,10 @@ module ProjectApp
           def update_project(params:)
             Project.update(params[:id], params)
           end
+
+          def delete_project(params:)
+            Project.destroy(params[:id])
+          end
         end
       end
     end
