@@ -10,13 +10,12 @@ RSpec.describe API::V1::Users, type: :request do
     end
   end
 
-
   describe '#POST /api/v1/projects' do
     let(:params) do
       {
         id: project_id,
         name: project_name,
-        description: project_description,
+        description: project_description
       }
     end
     let(:project_id) { '1' }
@@ -35,7 +34,7 @@ RSpec.describe API::V1::Users, type: :request do
     end
 
     it 'create project object' do
-      expect{ subject }.to change{ Project.count }.by(1)
+      expect { subject }.to change { Project.count }.by(1)
     end
 
     it 'created project has correct attributes' do

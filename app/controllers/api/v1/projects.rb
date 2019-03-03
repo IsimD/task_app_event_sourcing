@@ -11,10 +11,10 @@ module API
           optional  :description, type: String
         end
 
-        post  do
+        post do
           ::ProjectApp::Projects::UseCases::UserCreateProject.call(
             user: current_user,
-            params: permitted_params,
+            params: permitted_params
           )
           { message: 'OK' }
         end
