@@ -20,7 +20,7 @@ module API
           { message: 'OK' }
         end
 
-        desc 'Update project'
+        desc 'Update task'
         params do
           requires  :id,          type: String
           requires  :name,        type: String
@@ -29,6 +29,19 @@ module API
 
         put '/:id' do
           ::ProjectApp::Tasks::UseCases::UserUpdateTask.call(
+            user: current_user,
+            params: permitted_params
+          )
+          { message: 'OK' }
+        end
+
+        desc 'Delete task'
+        params do
+          requires :id, type: String
+        end
+
+        delete '/:id' do
+          ::ProjectApp::Tasks::UseCases::UserDeleteTask.call(
             user: current_user,
             params: permitted_params
           )

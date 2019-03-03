@@ -20,4 +20,8 @@ Rails.configuration.to_prepare do
     ::ProjectApp::Tasks::EventHandlers::UserUpdatedTask.new,
     to: [::ProjectApp::Tasks::Events::UserUpdatedTask],
   )
+  event_store.subscribe(
+    ::ProjectApp::Tasks::EventHandlers::UserDeletedTask.new,
+    to: [::ProjectApp::Tasks::Events::UserDeletedTask],
+  )
 end

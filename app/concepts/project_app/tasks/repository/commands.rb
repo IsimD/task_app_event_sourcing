@@ -10,6 +10,10 @@ module ProjectApp
           def update_task(params:)
             Task.update(params[:id], params)
           end
+
+          def delete_task(params:)
+            Task.destroy(params[:id])
+          end
         end
       end
     end

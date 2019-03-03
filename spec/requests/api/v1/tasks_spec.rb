@@ -84,4 +84,24 @@ RSpec.describe API::V1::Tasks, type: :request do
         .to(task_description)
     end
   end
+
+  describe '#DELETE /api/v1/tasks/:id' do
+    let!(:task)        { FactoryBot.create(:task, project: project) }
+    let!(:other_task)  { FactoryBot.create(:task, project: project) }
+    subject do
+      delete "/api/v1/tasks/#{task_id}"
+    end
+    let(:task_id) { task.id }
+
+    it 'has correct response' do
+      subject
+      expect(response).to have_http_status(200)
+      response_json = JSON.parse(response.body)
+      expect(response_json['message']).to eq('OK')
+    end
+
+    it 'delete project' do
+      expect { subject }.to change { Task.count }.by(-1)
+    end
+  end
 end
