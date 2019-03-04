@@ -24,4 +24,12 @@ Rails.configuration.to_prepare do
     ::ProjectApp::Tasks::EventHandlers::UserDeletedTask.new,
     to: [::ProjectApp::Tasks::Events::UserDeletedTask],
   )
+  event_store.subscribe(
+    ::ProjectApp::TimeTracking::EventHandlers::UserStartedTask.new,
+    to: [::ProjectApp::TimeTracking::Events::UserStartedTask],
+  )
+  event_store.subscribe(
+    ::ProjectApp::TimeTracking::EventHandlers::UserStoppedTask.new,
+    to: [::ProjectApp::TimeTracking::Events::UserStoppedTask],
+  )
 end
