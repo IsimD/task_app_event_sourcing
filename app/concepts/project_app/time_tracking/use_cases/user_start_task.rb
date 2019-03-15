@@ -16,10 +16,10 @@ module ProjectApp
           end
 
           def check_if_task_already_started(task_id, user_id)
-            ProjectApp::TimeTracking::Repository::Queries.not_finished_time_point_for_task(
+            !ProjectApp::TimeTracking::Repository::Queries.not_finished_time_point_for_task(
               task_id: task_id,
               user_id: user_id
-            ).any?
+            ).nil?
           end
 
           def create_event(user, params)

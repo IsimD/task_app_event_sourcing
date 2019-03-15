@@ -4,7 +4,7 @@ module ProjectApp
       class Queries
         class << self
           def not_finished_time_point_for_task(task_id:, user_id:)
-            TimeTrackingPoint.where(user_id: user_id, task_id: task_id, stop_time: nil)
+            TimeTrackingPoint.where(user_id: user_id, task_id: task_id, stop_time: nil).first
           end
 
           def find_task(task_id:)

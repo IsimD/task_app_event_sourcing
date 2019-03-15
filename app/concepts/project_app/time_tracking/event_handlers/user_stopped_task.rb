@@ -3,10 +3,10 @@ module ProjectApp
     module EventHandlers
       class UserStoppedTask
         def call(event)
-          stop_time = event.data[:params][:stop_time]
+          stop_time   = event.data[:params][:stop_time]
+          time_change = event.data[:params][:time_change]
           task = find_task(event.data[:params][:task_id])
           time_tracking_point = find_time_tracking_point(task)
-          time_change = calculate_time_change(time_tracking_point, stop_time)
 
           run_db_transation(task, time_tracking_point, stop_time, time_change)
         end
@@ -29,10 +29,6 @@ module ProjectApp
 
         def find_time_tracking_point(task)
           task.time_tracking_points.where(stop_time: nil).first
-        end
-
-        def calculate_time_change(time_tracking_point, stop_time)
-          stop_time.to_time - time_tracking_point.start_time
         end
 
         def update_time_tracking_point(time_tracking_point, stop_time)

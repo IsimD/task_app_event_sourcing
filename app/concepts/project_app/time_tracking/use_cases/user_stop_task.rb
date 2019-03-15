@@ -5,21 +5,37 @@ module ProjectApp
         TaskNotStarted = Class.new(StandardError)
         class << self
           def call(params:, user:)
-            check_if_can_stop(params, user)
-            create_event(user, params)
+            time_tracking_point = find_time_tracking_point(params[:task_id], user.id)
+            check_if_can_stop(time_tracking_point)
+            time_change = calculate_time_change(time_tracking_point, params[:stop_time])
+            prepared_params = prepare_params(params, time_change)
+
+            create_event(user, prepared_params)
           end
 
           private
 
-          def check_if_can_stop(params, user)
-            raise TaskNotStarted unless check_if_task_already_started(params[:task_id], user.id)
+          def check_if_can_stop(time_tracking_point)
+            raise TaskNotStarted unless check_if_task_already_started(time_tracking_point)
           end
 
-          def check_if_task_already_started(task_id, user_id)
+          def prepare_params(params, time_change)
+            params.merge(time_change: time_change)
+          end
+
+          def find_time_tracking_point(task_id, user_id)
             ProjectApp::TimeTracking::Repository::Queries.not_finished_time_point_for_task(
               task_id: task_id,
               user_id: user_id
-            ).any?
+            )
+          end
+
+          def calculate_time_change(time_tracking_point, stop_time)
+            stop_time.to_time - time_tracking_point.start_time
+          end
+
+          def check_if_task_already_started(time_tracking_point)
+            !time_tracking_point.nil?
           end
 
           def create_event(user, params)
